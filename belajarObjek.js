@@ -22,11 +22,11 @@
 // var mhs = buatObjekMahasiswa("Banu", 1000, "Bumi");
 
 // 3. Constructor
-// function Mahasiswa(nama, umur, alamat) {
-//   this.nama = nama;
-//   this.umur = umur;
-//   this.alamat = alamat;
-// }
+function Mahasiswa(nama, umur, alamat) {
+  this.nama = nama;
+  this.umur = umur;
+  this.alamat = alamat;
+}
 
 // var maba = new Mahasiswa("GORIEN", 999, "Namek");
 
