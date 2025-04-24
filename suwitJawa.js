@@ -21,11 +21,6 @@ while (ulang) {
   if (p == comp) {
     hasil = "SERI!";
   } else if (p == "gajah") {
-    //   if (comp == "orang") {
-    //     hasil = "MENANG!";
-    //   } else {
-    //     hasil = "KALAH!";
-    //   }
     hasil = comp == "orang" ? "MENANG!" : "KALAH!";
   } else if (p == "orang") {
     hasil = comp == "gajah" ? "KALAH!" : "MENANG!";
