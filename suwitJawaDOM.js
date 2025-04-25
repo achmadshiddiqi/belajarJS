@@ -38,18 +38,17 @@ const tombolPilihan = document.querySelectorAll("li img");
 // Bikin method saat tombol diklik
 tombolPilihan.forEach((pilihan) => {
   pilihan.addEventListener("click", () => {
-    // Cari area info
-    const info = document.querySelector(".area-info");
-    // Kosongin inner HTML info
-    info.innerHTML = "";
     // Ambil pilihan komputer & player
     const pKomputer = pilihanKomputer();
     const pPlayer = pilihan.className;
     // Ganti img komputer
     gantiImgKomputer(pKomputer);
-    // Jalankan aturan main
-    const teksInfo = document.createTextNode(aturanMain(pKomputer, pPlayer));
-    info.appendChild(teksInfo);
+    // Ambil hasilnya
+    const hasil = aturanMain(pKomputer, pPlayer);
+    // Cari area info
+    const info = document.querySelector(".area-info");
+    // Tampilkan hasilnya di info
+    info.innerHTML = hasil;
   });
 });
 
