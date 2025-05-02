@@ -8,13 +8,13 @@
 // });
 
 // Kalo card nya banyak
-const x = document.querySelectorAll(".close");
+// const x = document.querySelectorAll(".close");
 
-x.forEach((e) => {
-  e.addEventListener("click", () => {
-    e.parentElement.style.display = "none";
-  });
-});
+// x.forEach((e) => {
+//   e.addEventListener("click", () => {
+//     e.parentElement.style.display = "none";
+//   });
+// });
 
 // Method yang lain
 const nama = document.querySelector(".nama");
@@ -24,3 +24,15 @@ console.log(nama.parentElement.parentElement);
 console.log(nama.nextSibling);
 console.log(nama.nextElementSibling);
 console.log(nama.previousElementSibling);
+
+// Jika elemen tombolnya diganti dari span menjadi a
+// Maka jika diclick akan hilang sepersekian setik saja
+// Lalu akan muncul kembali ke-refresh karena a adalah hyperlink
+const x = document.querySelectorAll(".close");
+
+x.forEach((el) => {
+  el.addEventListener("click", (e) => {
+    e.target.parentElement.style.display = "none";
+    e.preventDefault();
+  });
+});
