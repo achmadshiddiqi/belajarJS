@@ -1,0 +1,38 @@
+[
+  {
+    "id": 123,
+    "nama": "Dori",
+    "umur": 20,
+    "jurusan": "MTK"
+  },
+  {
+    "id": 124,
+    "nama": "Doni",
+    "umur": 20,
+    "jurusan": "Fisika"
+  },
+  {
+    "id": 125,
+    "nama": "Dodi",
+    "umur": 20,
+    "jurusan": "Kimia"
+  },
+  {
+    "id": 126,
+    "nama": "Dobi",
+    "umur": 20,
+    "jurusan": "Biologi"
+  },
+  {
+    "id": 127,
+    "nama": "Dovi",
+    "umur": 20,
+    "jurusan": "SI"
+  },
+  {
+    "id": 128,
+    "nama": "Dowi",
+    "umur": 20,
+    "jurusan": "TI"
+  }
+]
