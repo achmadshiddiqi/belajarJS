@@ -1,3 +1,6 @@
-const hola = require("./coba");
+const fs = require("fs"); // Import core module
+// const hola = require("./coba"); // Import local module
+const coba = require("./coba");
+// const moment = require("moment"); // Import npm module
 
-console.log(hola("aaa", 14));
+console.log(coba.hola("aaa", 14), coba.nip);
