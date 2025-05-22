@@ -1,5 +1,6 @@
 const fs = require("node:fs"); // Import File System
 const validator = require("validator"); // Import Validator npm
+const chalk = require("chalk");
 
 // Membuat folden jika belum ada
 if (!fs.existsSync("./data")) {
@@ -11,53 +12,69 @@ if (!fs.existsSync("./data/contacts.json")) {
   fs.writeFileSync("./data/contacts.json", "", "utf-8");
 }
 
-// Fungsi membuat kontak baru
-const newContactData = (nama, nomor) => {
-  fs.readFile("data/contacts.json", "utf-8", (err, data) => {
+// Fungsi read contacts.json
+const getContacts = () => {
+  const fileBuffer = fs.readFileSync("data/contacts.json", (err, data) => {
     if (err) throw err;
-    try {
-      // Cek apakah file contacts.json kosong
-      if (validator.isEmpty(data)) {
-        data = "[]";
-      }
-      const datas = JSON.parse(data);
-
-      // Validasi data kontak
-      const dupeNama = datas.find((data) => data.nama === nama);
-      const dupeNomor = datas.find((data) => data.nomor === nomor);
-      if (dupeNama && dupeNomor) {
-        return console.log("Data kontak sudah ada");
-      }
-
-      // Nama
-      if (!validator.isAlpha(nama)) {
-        return console.log("Nama tidak valid");
-      }
-
-      // Nomor HP
-      if (!validator.isNumeric(nomor)) {
-        return console.log("Nomor yang kamu tulis bukan berupa angka");
-      } else if (!validator.isMobilePhone(nomor, "id-ID")) {
-        return console.log("Silahkan gunakan nomor telepon Indonesia");
-      }
-
-      const newData = { nama, nomor };
-      datas.push(newData);
-      updateContacts(datas);
-    } catch (err) {
-      console.log(err);
+    // Cek apakah file contacts.json kosong
+    if (validator.isEmpty(data)) {
+      data = "[]";
     }
   });
+  const datas = JSON.parse(fileBuffer);
+  return datas;
+};
+
+// Fungsi membuat kontak baru
+const newContactData = async (nama, nomor) => {
+  const datas = await getContacts();
+  // Validasi data kontak
+  const dupeNama = datas.find((data) => data.nama === nama);
+  const dupeNomor = datas.find((data) => data.nomor === nomor);
+  if (dupeNama && dupeNomor) {
+    return console.log(chalk`Data kontak {bgRed.bold sudah ada}`);
+  } else if (dupeNomor) {
+    return console.log(chalk`Nomor sudah {bgRed.bold ada}`);
+  }
+
+  // Nama
+  if (!validator.isAlpha(nama)) {
+    return console.log(chalk`Nama tidak {bgRed.bold valid}`);
+  }
+
+  // Nomor HP
+  if (!validator.isNumeric(nomor)) {
+    return console.log(
+      chalk`Nomor yang kamu tulis bukan berupa {bgRed.bold angka}`
+    );
+  } else if (!validator.isMobilePhone(nomor, "id-ID")) {
+    return console.log(
+      chalk`Silahkan gunakan nomor telepon {bgRed.bold Indonesia}`
+    );
+  }
+
+  const newData = { nama, nomor };
+  datas.push(newData);
+  updateContacts(datas);
 };
 
 // Fungsi update contacts.json
 const updateContacts = (data) => {
   fs.writeFile("data/contacts.json", JSON.stringify(data, null, 2), (err) => {
     if (err) throw err;
-    console.log(`Kontak ${data[data.length - 1].nama} berhasil disimpan!`);
-    // rl.close();
+    const newCName = data[data.length - 1].nama;
+    console.log(chalk`Kontak ${newCName} {bgGreen.bold berhasil disimpan!}`);
+  });
+};
+
+// Fungsi list contact
+const listContact = async () => {
+  const datas = await getContacts();
+  console.log(chalk`{bgBlue Daftar Kontak:}`);
+  datas.forEach((data, i) => {
+    console.log(`${i + 1}. Nama: ${data.nama}, Nomor: ${data.nomor}`);
   });
 };
 
 // Export fungsi untuk app.js
-module.exports = { newContactData };
+module.exports = { newContactData, listContact };
