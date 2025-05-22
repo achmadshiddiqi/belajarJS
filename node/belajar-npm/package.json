@@ -1,0 +1,18 @@
+{
+  "name": "belajar-npm",
+  "version": "1.0.0",
+  "description": "jejak seorang shiddiqi belajar npm pada node.js",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Achmad Shiddiqi Aulia",
+  "license": "ISC",
+  "dependencies": {
+    "validator": "^13.15.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
