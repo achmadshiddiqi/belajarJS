@@ -25,10 +25,10 @@ const getContacts = () => {
   return datas;
 };
 
-// Fungsi membuat kontak baru
+// Fungsi membuat contact baru
 const newContactData = async (nama, nomor) => {
   const datas = await getContacts();
-  // Validasi data kontak
+  // Validasi data contact
   const dupeNama = datas.find((data) => data.nama === nama);
   const dupeNomor = datas.find((data) => data.nomor === nomor);
   if (dupeNama && dupeNomor) {
@@ -76,5 +76,43 @@ const listContact = async () => {
   });
 };
 
+// Fungsi detail contact
+const detailContact = async (nama) => {
+  const datas = await getContacts();
+  datas.forEach((data) => {
+    if (data.nama.toLowerCase() === nama.toLowerCase()) {
+      console.log(`Nama: ${data.nama}`);
+      console.log(`Nomor: ${data.nomor}`);
+    }
+  });
+  if (!datas.find((data) => data.nama.toLowerCase() === nama.toLowerCase())) {
+    return console.log(chalk`Tidak ada kontak dengan nama {bgRed ${nama}}`);
+  }
+};
+
+// Fungsi delete contact
+const deleteContact = async (nama) => {
+  const datas = await getContacts();
+  let targetData = datas.find(
+    (data) => data.nama.toLowerCase() === nama.toLowerCase()
+  );
+
+  if (!targetData) {
+    return console.log(chalk`Tidak ada kontak dengan nama {bgRed ${nama}}`);
+  }
+
+  const i = datas.indexOf(targetData);
+  datas.splice(i, 1);
+
+  fs.writeFile(
+    "./data/contacts.json",
+    JSON.stringify(datas, null, 2),
+    (err) => {
+      if (err) throw err;
+      console.log(chalk`Kontak {bgRed ${nama}} {bgGreen berhasil dihapus!}`);
+    }
+  );
+};
+
 // Export fungsi untuk app.js
-module.exports = { newContactData, listContact };
+module.exports = { newContactData, listContact, detailContact, deleteContact };
