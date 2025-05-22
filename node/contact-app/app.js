@@ -1,13 +1,38 @@
-// Import fungsi dari contacts.js
-const { pertanyaan, newContactData } = require("./contacts.js");
+const yargs = require("yargs");
+const { newContactData } = require("./contacts");
 
-// Fungsi main
-const main = async () => {
-  const nama = await pertanyaan("Masukkan nama : ");
-  const nomor = await pertanyaan("Masukkan nomor telepon : ");
+// // Import fungsi dari contacts.js
+// const { pertanyaan, newContactData } = require("./contacts.js");
 
-  newContactData(nama, nomor);
-};
+yargs.command({
+  command: "add",
+  describe: "Menambahkan kontak baru",
+  builder: {
+    nama: {
+      describe: "Nama lengkap",
+      demandOption: true,
+      type: "string",
+    },
+    nomor: {
+      describe: "Nomor HP",
+      demandOption: true,
+      type: "string",
+    },
+  },
+  handler(argv) {
+    newContactData(argv.nama, argv.nomor);
+  },
+});
 
-// Jalankan fungsi main()
-main();
+yargs.parse();
+
+// // Fungsi main
+// const main = async () => {
+//   const nama = await pertanyaan("Masukkan nama : ");
+//   const nomor = await pertanyaan("Masukkan nomor telepon : ");
+
+//   newContactData(nama, nomor);
+// };
+
+// // Jalankan fungsi main()
+// main();
