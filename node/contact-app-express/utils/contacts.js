@@ -1,5 +1,4 @@
 const fs = require("node:fs"); // Import File System
-const validator = require("validator"); // Import Validator npm
 
 // Membuat folden jika belum ada
 if (!fs.existsSync("./data")) {
@@ -27,4 +26,24 @@ const detailContact = (nama) => {
   return data;
 };
 
-module.exports = { getContacts, detailContact };
+// Fungsi add contact
+const newContactData = (contact) => {
+  const datas = getContacts();
+  datas.push(contact);
+  updateContacts(datas);
+};
+
+// Fungsi update contacts
+const updateContacts = (data) => {
+  return fs.writeFileSync("data/contacts.json", JSON.stringify(data, null, 2));
+};
+
+// Fungsi cek duplikat
+const cekDupe = (nama) => {
+  const contacts = getContacts();
+  return contacts.find(
+    (contact) => contact.nama.toLowerCase() == nama.toLowerCase()
+  );
+};
+
+module.exports = { getContacts, detailContact, newContactData, cekDupe };
