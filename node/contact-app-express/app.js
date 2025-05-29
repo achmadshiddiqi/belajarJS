@@ -4,6 +4,8 @@ const {
   detailContact,
   newContactData,
   cekDupe,
+  deleteContact,
+  updateContact,
 } = require("./utils/contacts");
 const { body, validationResult } = require("express-validator");
 const session = require("express-session");
@@ -62,7 +64,7 @@ app.get("/contact/add", (req, res) => {
 app.post(
   "/contact",
   body("nama").custom(async (value) => {
-    const dupe = cekDupe(value);
+    const dupe = await cekDupe(value);
     if (dupe) {
       throw new Error(`Sudah ada kontak dengan nama ${value}`);
     }
@@ -89,8 +91,56 @@ app.post(
   }
 );
 
+// Delete contact
+app.get("/contact/delete/:nama", (req, res) => {
+  const contact = detailContact(req.params.nama);
+  deleteContact(req.params.nama);
+  req.flash("msg", `Kontak ${req.params.nama} berhasil dihapus`);
+  res.redirect("/contacts");
+});
+
+// Edit contact
+app.get("/contact/edit/:nama", (req, res) => {
+  const contact = detailContact(req.params.nama);
+  res.render("edit-contact", {
+    title: "Halaman Ubah Data Contact",
+    contact,
+  });
+});
+
+// Proses edit contact
+app.post(
+  "/contact/update",
+  body("nama").custom(async (value, { req }) => {
+    const dupe = cekDupe(value);
+    if (value !== req.body.oldNama && dupe) {
+      throw new Error(`Sudah ada kontak dengan nama ${value}`);
+    }
+  }),
+  body("nama").trim().isAlpha().withMessage("Nama tidak valid 😪"),
+  body("nomor")
+    .trim()
+    .isMobilePhone("id-ID")
+    .withMessage("Pake nomor Indonesia!"),
+  (req, res) => {
+    const result = validationResult(req);
+    if (result.isEmpty()) {
+      updateContact(req.body);
+      // Kirim flash message
+      req.flash("msg", `Kontak ${req.body.nama} berhasil diubah`);
+      res.redirect("/contacts");
+    } else {
+      res.render("edit-contact", {
+        title: "Halaman Ubah Data Contact",
+        errors: result.array(),
+        contact: req.body,
+      });
+    }
+  }
+);
+
 // Halaman detail contact
-app.get("/contacts/:nama", (req, res) => {
+app.get("/contact/:nama", (req, res) => {
   const contact = detailContact(req.params.nama);
   res.render("detail", { title: "Halaman Detail Contact", contact });
 });

@@ -11,7 +11,7 @@
 
       <a href="/contact/add" class="btn btn-primary mb-2">Tambah Kontak</a>
 
-      <% if (msg.length !== 0) { %>
+      <% if (msg.length !== 0 ) { %>
       <div class="alert alert-success" role="alert"><%= msg %></div>
       <% } %>
 
@@ -40,7 +40,7 @@
             <td><%= contact.nomor %></td>
             <td>
               <a
-                href="/contacts/<%= contact.nama %>"
+                href="/contact/<%= contact.nama %>"
                 type="button"
                 class="btn btn-primary badge rounded-pill"
               >

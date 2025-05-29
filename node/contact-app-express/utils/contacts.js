@@ -1,4 +1,5 @@
 const fs = require("node:fs"); // Import File System
+const { get } = require("node:http");
 
 // Membuat folden jika belum ada
 if (!fs.existsSync("./data")) {
@@ -20,9 +21,7 @@ const getContacts = () => {
 // Fungsi detail contact
 const detailContact = (nama) => {
   const datas = getContacts();
-  const data = datas.find(
-    (data) => data.nama.toLowerCase() === nama.toLowerCase()
-  );
+  const data = datas.find((data) => data.nama === nama);
   return data;
 };
 
@@ -46,4 +45,37 @@ const cekDupe = (nama) => {
   );
 };
 
-module.exports = { getContacts, detailContact, newContactData, cekDupe };
+// Fungsi delete contact
+const deleteContact = (nama) => {
+  const contacts = getContacts();
+  let targetData = contacts.find((contact) => contact.nama === nama);
+
+  if (!targetData) {
+    return console.log(`Tidak ada kontak dengan nama ${nama}`);
+  }
+
+  const i = contacts.indexOf(targetData);
+  contacts.splice(i, 1);
+
+  updateContacts(contacts);
+};
+
+// Fungsi update contact
+const updateContact = (contactBaru) => {
+  const contacts = getContacts();
+  const targetData = contacts.find((data) => data.nama == contactBaru.oldNama);
+
+  const i = contacts.indexOf(targetData);
+  delete contactBaru.oldNama;
+  contacts.splice(i, 1, contactBaru);
+  updateContacts(contacts);
+};
+
+module.exports = {
+  getContacts,
+  detailContact,
+  newContactData,
+  cekDupe,
+  deleteContact,
+  updateContact,
+};
