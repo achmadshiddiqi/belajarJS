@@ -10,12 +10,13 @@
       <% if (typeof errors !== 'undefined') { %> <% errors.forEach(error => { %>
       <div class="alert alert-danger" role="alert"><%= error.msg %></div>
       <% }) %> <% } %>
-      <form method="post" action="/contact/update">
+      <form method="post" action="/contact?_method=PUT">
         <div class="mb-3">
+          <!-- Hidden Id -->
+          <input type="hidden" name="_id" value="<%= contact._id %>" />
           <!-- Hidden Nama -->
           <input
             type="hidden"
-            class="form-control"
             name="oldNama"
             value="<%= contact.oldNama || contact.nama %>"
           />

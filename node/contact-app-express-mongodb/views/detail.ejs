@@ -65,9 +65,10 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Close
         </button>
-        <a href="/contact/delete/<%= contact.nama %>" class="btn btn-danger"
-          >Hapus</a
-        >
+        <form method="post" action="/contact?_method=DELETE" class="d-inline">
+          <input type="hidden" name="nama" value="<%= contact.nama %>" />
+          <button type="submit" class="btn btn-danger">Hapus</button>
+        </form>
       </div>
     </div>
   </div>
