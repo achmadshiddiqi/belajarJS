@@ -1,5 +1,4 @@
 const fs = require("node:fs"); // Import File System
-const { get } = require("node:http");
 
 // Membuat folden jika belum ada
 if (!fs.existsSync("./data")) {

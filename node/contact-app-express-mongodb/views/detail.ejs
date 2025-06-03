@@ -1,0 +1,77 @@
+<!-- Header -->
+<%- include('layouts/header') %>
+<!-- Nav -->
+<%- include('layouts/nav') %>
+
+<!-- Content -->
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Contact Detail</h2>
+      <% if (!contact) { %>
+      <div class="alert alert-danger" role="alert">
+        Tidak ada kontak
+        <a href="/contacts" class="alert-link">balik yuk</a>
+      </div>
+      <% } else { %>
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">Nama: <%= contact.nama %></h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">
+            Nomor: <%= contact.nomor %>
+          </h6>
+          <a href="/contacts" class="card-link">Kembali</a>
+          <a
+            href="/contact/edit/<%= contact.nama %>"
+            class="btn btn-success badge"
+            >Ubah</a
+          >
+          <button
+            type="button"
+            class="btn btn-warning badge"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Hapus Kontak
+          </button>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Kontak</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">Yakin ente?</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <a href="/contact/delete/<%= contact.nama %>" class="btn btn-danger"
+          >Hapus</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<%- include('layouts/footer') %>

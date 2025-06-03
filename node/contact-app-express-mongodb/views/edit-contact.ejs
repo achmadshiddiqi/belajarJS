@@ -1,0 +1,49 @@
+<!-- Header -->
+<%- include('layouts/header') %>
+<!-- Nav -->
+<%- include('layouts/nav') %>
+<!-- Content -->
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-md-6">
+      <h2>Ubah Data Kontak</h2>
+      <% if (typeof errors !== 'undefined') { %> <% errors.forEach(error => { %>
+      <div class="alert alert-danger" role="alert"><%= error.msg %></div>
+      <% }) %> <% } %>
+      <form method="post" action="/contact/update">
+        <div class="mb-3">
+          <!-- Hidden Nama -->
+          <input
+            type="hidden"
+            class="form-control"
+            name="oldNama"
+            value="<%= contact.oldNama || contact.nama %>"
+          />
+
+          <label for="nama" class="form-label">Nama</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nama"
+            name="nama"
+            value="<%= contact.nama %>"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="nomor" class="form-label">Nomor</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nomor"
+            name="nomor"
+            value="<%= contact.nomor %>"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- Footer -->
