@@ -43,3 +43,54 @@ exports.login = async (req, res, next) => {
     res.send(err);
   }
 };
+
+exports.update = async (req, res, next) => {
+  const { _id, role } = req.body;
+  if (_id && role) {
+    if (role === "admin") {
+      const user = await User.findOne({ _id });
+      try {
+        if (user.role === "admin") {
+          res.status(400);
+          res.send("This user is already an admin");
+        } else {
+          await User.updateOne({ _id }, { $set: { role: role } });
+          res.status(201);
+          res.send("Update successful");
+        }
+      } catch (err) {
+        res.status(401);
+        res.send(err);
+      }
+    } else {
+      res.status(400);
+      res.send("Can't downgrade to staff");
+    }
+  } else {
+    res.status(400);
+    res.send("id and role are required");
+  }
+};
+
+exports.deleteUser = async (req, res, next) => {
+  const _id = req.body;
+  if (_id) {
+    const user = await User.findOne({ _id });
+    try {
+      if (user) {
+        await User.deleteOne({ _id });
+        res.status(201);
+        res.send("Successfully deleted one user");
+      } else {
+        res.status(400);
+        res.send("User not found");
+      }
+    } catch (err) {
+      res.status(401);
+      res.send(err);
+    }
+  } else {
+    res.status(400);
+    res.send("Choose a user to be deleted");
+  }
+};
