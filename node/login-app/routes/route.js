@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { register, login, update, deleteUser } = require("../auth/auth");
+const {
+  register,
+  login,
+  update,
+  deleteUser,
+  getUsers,
+} = require("../auth/auth");
 const { adminAuth } = require("../auth/middleware");
 
 router.route("/register").post(register);

@@ -137,3 +137,13 @@ exports.deleteUser = async (req, res, next) => {
     res.send("Choose a user to be deleted");
   }
 };
+
+exports.getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({ role: "Staff" });
+    return users;
+  } catch (err) {
+    res.status(401);
+    res.send(err);
+  }
+};

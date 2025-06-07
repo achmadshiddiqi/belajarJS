@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const { adminAuth, userAuth } = require("./auth/middleware");
+const { getUsers } = require("./auth/auth");
 
 const app = express();
 const port = 3000;
@@ -30,6 +31,24 @@ app.get("/staff", userAuth, (req, res) => {
 });
 
 app.use("/api/auth", routes);
+
+app.get("/", (req, res) => {
+  res.render("home", { title: "Home Page" });
+});
+
+app.get("/register", (req, res) => {
+  res.render("register", { title: "Register Page" });
+});
+
+app.get("/login", (req, res) => {
+  res.render("login", { title: "Login Page" });
+});
+
+app.get("/users", async (req, res) => {
+  const users = await getUsers();
+  console.log(users);
+  res.render("users", { title: "User List Page", users });
+});
 
 app.listen(port, () => {
   console.log(`Login App listening on port http://localhost:${port}`);

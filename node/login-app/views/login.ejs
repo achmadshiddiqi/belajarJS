@@ -1,0 +1,28 @@
+<!-- Header -->
+<%- include('./layouts/header') %>
+<!-- Content -->
+<div class="row">
+  <div class="col-md-4">
+    <h1 class="text-center">Login</h1>
+    <form method="post" action="/api/auth/login">
+      <div class="mb-3">
+        <label for="inputPassword5" class="form-label">Username</label>
+        <input type="text" id="username" name="username" class="form-control" />
+      </div>
+      <div class="mb-3">
+        <label for="inputPassword5" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+        />
+      </div>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Footer -->
+<%- include('./layouts/footer') %>
