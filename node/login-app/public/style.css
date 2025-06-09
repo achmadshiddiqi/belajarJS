@@ -1,0 +1,23 @@
+body {
+  background-color: black;
+}
+.dashboard-text-big h1 {
+  font-family: cursive;
+  font-size: 100px;
+  text-align: end;
+  color: white;
+}
+
+.dashboard-text h5 {
+  font-family: cursive;
+  font-size: 21px;
+  line-height: 30px;
+  text-align: justify;
+  color: white;
+}
+
+.form-body {
+  background-color: lightgray;
+  border: 1px solid lightgray;
+  border-radius: 20px;
+}

@@ -44,9 +44,8 @@ app.get("/login", (req, res) => {
   res.render("login", { title: "Login Page" });
 });
 
-app.get("/users", async (req, res) => {
+app.get("/users", adminAuth, async (req, res) => {
   const users = await getUsers();
-  console.log(users);
   res.render("users", { title: "User List Page", users });
 });
 

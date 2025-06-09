@@ -89,9 +89,9 @@ exports.login = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   const { _id, role } = req.body;
+  const user = await User.findOne({ _id });
   if (_id && role) {
     if (role === "admin") {
-      const user = await User.findOne({ _id });
       try {
         if (user.role === "admin") {
           res.status(400);
@@ -106,8 +106,13 @@ exports.update = async (req, res, next) => {
         res.send(err);
       }
     } else {
-      res.status(400);
-      res.send("Can't downgrade to staff");
+      if (user.role === "Staff") {
+        res.status(400);
+        res.send("This user is already a staff");
+      } else {
+        res.status(201);
+        res.send("Update successful");
+      }
     }
   } else {
     res.status(400);

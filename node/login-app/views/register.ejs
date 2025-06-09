@@ -1,8 +1,11 @@
 <!-- Header -->
 <%- include('./layouts/header') %>
+<!-- Navbar -->
+<%- include('./layouts/nav') %>
 <!-- Content -->
-<div class="row">
-  <div class="col-md-4">
+<div class="row mt-5">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 form-body">
     <h1 class="text-center">Register</h1>
     <form method="post" action="/api/auth/register">
       <div class="mb-3">
@@ -26,6 +29,7 @@
       </div>
     </form>
   </div>
+  <div class="col-md-4"></div>
 </div>
 <!-- Footer -->
 <%- include('./layouts/footer') %>
