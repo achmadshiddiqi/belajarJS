@@ -21,3 +21,11 @@ body {
   border: 1px solid lightgray;
   border-radius: 20px;
 }
+
+.navbar .center ul {
+  margin-left: 31%;
+}
+
+.navbar .center ul li {
+  margin-left: 10px;
+}
