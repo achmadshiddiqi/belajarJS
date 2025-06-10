@@ -1,0 +1,45 @@
+<!-- Header -->
+<%- include('./layouts/header') %>
+<!-- Navbar -->
+<%- include('./layouts/nav') %>
+<!-- Content -->
+<div class="row mt-5">
+  <div class="col-md-4"></div>
+  <div class="col-md-4 form-body">
+    <h1 class="text-center">Update</h1>
+    <form method="post" action="/api/auth/update">
+      <div class="mb-3">
+        <label for="inputPassword5" class="form-label">Username</label>
+        <!-- Hidden id -->
+        <input type="hidden" id="_id" name="_id" value="<%= user._id %>" />
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="form-control"
+          value="<%= user.username %>"
+          disabled
+        />
+      </div>
+      <div class="mb-3">
+        <label for="inputPassword5" class="form-label">Role</label>
+        <select
+          class="form-select"
+          id="role"
+          name="role"
+          aria-label="Default select example"
+        >
+          <option value="Staff">Staff</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <button type="submit" class="btn btn-success">Save Change</button>
+        <a href="/users" class="btn btn-primary">Back</a>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<!-- Footer -->
+<%- include('./layouts/footer') %>

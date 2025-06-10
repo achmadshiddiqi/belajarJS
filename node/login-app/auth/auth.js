@@ -78,12 +78,7 @@ exports.login = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   const { _id, role } = req.body;
-  const loggedUser = req.user;
   const user = await User.findOne({ _id });
-  if (loggedUser.role !== "admin") {
-    return res.status(401).send("Not Authorized");
-  }
-
   if (_id && role) {
     if (role === "admin") {
       try {
@@ -110,10 +105,6 @@ exports.update = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   const _id = req.body;
-  const loggedUser = req.user;
-  if (loggedUser.role !== "admin") {
-    return res.status(401).send("Not Authorized");
-  }
 
   if (_id) {
     const user = await User.findOne({ _id });

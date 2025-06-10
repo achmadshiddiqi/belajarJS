@@ -7,20 +7,24 @@ const jwtSecret = process.env.ACCESS_TOKEN_SECRET;
 
 // User authentication
 exports.loginAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
-  if (token) {
-    jwt.verify(token, jwtSecret, (err, decodedToken) => {
-      if (err) {
-        res.status(401).send("This sessioh has expired. Please login.");
-      }
+  try {
+    const token = req.cookies.jwt;
+    if (token) {
+      jwt.verify(token, jwtSecret, (err, decodedToken) => {
+        if (err) {
+          res.status(401).send("This sessioh has expired. Please login.");
+        }
 
-      if (!decodedToken.role || !decodedToken.username) {
-        return res.status(401).send("Not Authorized");
-      } else {
-        req.user = decodedToken;
-        next();
-      }
-    });
+        if (!decodedToken.role || !decodedToken.username) {
+          return res.status(401).send("Not Authorized");
+        } else {
+          req.user = decodedToken;
+          next();
+        }
+      });
+    }
+  } catch (err) {
+    return res.status(403).send(err);
   }
 };
 
@@ -28,7 +32,7 @@ exports.loginAuth = (req, res, next) => {
 exports.adminAuth = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    if (decodedToken.role !== "admin") {
+    if (req.user.role !== "admin") {
       return res.status(401).send("You are not authorized");
     } else {
       next();
