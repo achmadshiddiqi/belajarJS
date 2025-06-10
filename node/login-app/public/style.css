@@ -29,3 +29,12 @@ body {
 .navbar .center ul li {
   margin-left: 10px;
 }
+
+.kolom-tombol {
+  display: flex;
+  justify-content: space-between;
+}
+
+.users-title {
+  color: white;
+}

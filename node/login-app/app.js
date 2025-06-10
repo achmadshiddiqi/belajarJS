@@ -1,6 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const { adminAuth, userAuth } = require("./auth/middleware");
+const { adminAuth, userAuth, loginAuth } = require("./auth/middleware");
 const { getUsers } = require("./auth/auth");
 
 const app = express();
@@ -23,30 +23,33 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 // Token auth
-app.get("/admin", adminAuth, (req, res) => {
-  res.send("Admin Routes");
-});
-app.get("/staff", userAuth, (req, res) => {
-  res.send("Staff Routes");
-});
+// app.get("/admin", loginAuth, (req, res) => {
+//   res.send("Admin Routes");
+// });
+// app.get("/staff", userAuth, (req, res) => {
+//   res.send("Staff Routes");
+// });
 
+// Backend Routes
 app.use("/api/auth", routes);
 
+// Frontend Routes
 app.get("/", (req, res) => {
-  res.render("home", { title: "Home Page" });
+  res.render("login", { title: "Login Page" });
 });
 
 app.get("/register", (req, res) => {
   res.render("register", { title: "Register Page" });
 });
 
-app.get("/login", (req, res) => {
-  res.render("login", { title: "Login Page" });
+app.get("/home", loginAuth, (req, res) => {
+  res.render("home", { title: "Home Page" });
 });
 
-app.get("/users", adminAuth, async (req, res) => {
+app.get("/users", loginAuth, async (req, res) => {
+  const loggedUser = req.user;
   const users = await getUsers();
-  res.render("users", { title: "User List Page", users });
+  res.render("users", { title: "User List Page", users, loggedUser });
 });
 
 app.listen(port, () => {
