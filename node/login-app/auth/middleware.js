@@ -1,27 +1,32 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-// Jwt secret
-// const jwtSecret =
-//   "2d385fb66ec6cf0807e147237e17948c1f56490a87396b2f9a6b3161c6475ec3";
-const jwtSecret = process.env.ACCESS_TOKEN_SECRET;
 
 // User authentication
 exports.loginAuth = (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+    // const token = req.cookies.jwt;
+    const token = req.body;
+    res.send(token);
+    if (token == null) {
+      res.send("Token invalid");
+    }
     if (token) {
-      jwt.verify(token, jwtSecret, (err, decodedToken) => {
-        if (err) {
-          res.status(401).send("This sessioh has expired. Please login.");
-        }
+      jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+        (err, decodedToken) => {
+          if (err) {
+            res.status(403).send("This session has expired. Please login.");
+          }
 
-        if (!decodedToken.role || !decodedToken.username) {
-          return res.status(401).send("Not Authorized");
-        } else {
-          req.user = decodedToken;
-          next();
+          if (!decodedToken.role || !decodedToken.username) {
+            return res.status(401).send("Not Authorized");
+          } else {
+            req.user = decodedToken;
+            next();
+          }
         }
-      });
+      );
     }
   } catch (err) {
     return res.status(403).send(err);
@@ -30,7 +35,8 @@ exports.loginAuth = (req, res, next) => {
 
 // User authorization
 exports.adminAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  // const token = req.cookies.jwt;
+  const token = req.body.accessToken;
   if (token) {
     if (req.user.role !== "admin") {
       return res.status(401).send("You are not authorized");

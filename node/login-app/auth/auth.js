@@ -1,27 +1,42 @@
 const User = require("../models/users");
+const Token = require("../models/tokens");
 const { scrypt, randomBytes, timingSafeEqual } = require("node:crypto");
 const { promisify } = require("node:util");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-// Jwt secret
-// const jwtSecret =
-//   "2d385fb66ec6cf0807e147237e17948c1f56490a87396b2f9a6b3161c6475ec3";
-const jwtSecret = process.env.ACCESS_TOKEN_SECRET;
 const scryptAsync = promisify(scrypt);
 
-// Fungsi hash password
+// Hash password
 const hashPassword = async (password) => {
   const salt = randomBytes(16).toString("hex");
   const buff = Buffer.from(await scryptAsync(password, salt, 64));
   return `${buff.toString("hex")}.${salt}`;
 };
 
-// Fungsi compare password on login
+// Compare password on login
 const comparePassword = async (storedPassword, password) => {
   const [hashedPassword, salt] = storedPassword.split(".");
   const hashedPasswordBuff = Buffer.from(hashedPassword, "hex");
   const passwordBuff = Buffer.from(await scryptAsync(password, salt, 64));
   return timingSafeEqual(hashedPasswordBuff, passwordBuff);
+};
+
+// Generate Access Token
+const generateAccessToken = (user, username) => {
+  return jwt.sign(
+    { id: user._id, username, role: user.role },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: "15m" }
+  );
+};
+
+// Generate Refresh Token
+const generateRefreshToken = (user, username) => {
+  return jwt.sign(
+    { id: user._id, username, role: user.role },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: "1d" }
+  );
 };
 
 exports.register = async (req, res, next) => {
@@ -53,20 +68,21 @@ exports.login = async (req, res, next) => {
   }
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }, "+password");
     if (!user) {
       return res.status(404).send("User not found");
     } else {
       const check = await comparePassword(user.password, password);
       if (check) {
-        const maxAge = 3 * 60 * 60;
-        const token = jwt.sign(
-          { id: user._id, username, role: user.role },
-          jwtSecret,
-          { expiresIn: maxAge }
-        );
-        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-        return res.status(200).send("Login successful");
+        const accessToken = generateAccessToken(user, username);
+        const refreshToken = generateRefreshToken(user, username);
+        await Token.insertOne({ r_token: refreshToken });
+        // res.cookie("jwt", token, { httpOnly: true });
+        res.json({
+          message: "Login successful",
+          accessToken,
+          refreshToken,
+        });
       } else {
         return res.status(400).send("Login unsuccessful");
       }
