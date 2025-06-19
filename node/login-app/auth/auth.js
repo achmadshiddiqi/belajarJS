@@ -77,18 +77,23 @@ exports.login = async (req, res, next) => {
         const accessToken = generateAccessToken(user, username);
         const refreshToken = generateRefreshToken(user, username);
         await Token.insertOne({ r_token: refreshToken });
-        // res.cookie("jwt", token, { httpOnly: true });
+        res.cookie("accessToken", accessToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: true,
+        });
         res.json({
           message: "Login successful",
           accessToken,
           refreshToken,
         });
+        res.redirect("/home");
       } else {
         return res.status(400).send("Login unsuccessful");
       }
     }
   } catch (err) {
-    return res.status(400).send(err);
+    return res.status(400);
   }
 };
 

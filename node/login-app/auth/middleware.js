@@ -4,9 +4,7 @@ require("dotenv").config();
 // User authentication
 exports.loginAuth = (req, res, next) => {
   try {
-    // const token = req.cookies.jwt;
-    const token = req.body;
-    res.send(token);
+    const token = req.cookies.jwt;
     if (token == null) {
       res.send("Token invalid");
     }
@@ -35,8 +33,7 @@ exports.loginAuth = (req, res, next) => {
 
 // User authorization
 exports.adminAuth = (req, res, next) => {
-  // const token = req.cookies.jwt;
-  const token = req.body.accessToken;
+  const token = req.cookies.jwt;
   if (token) {
     if (req.user.role !== "admin") {
       return res.status(401).send("You are not authorized");
