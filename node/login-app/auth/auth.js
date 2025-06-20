@@ -87,7 +87,7 @@ exports.login = async (req, res, next) => {
           accessToken,
           refreshToken,
         });
-        res.redirect("/home");
+        return res.status(201).redirect("/home");
       } else {
         return res.status(400).send("Login unsuccessful");
       }

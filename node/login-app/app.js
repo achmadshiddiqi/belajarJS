@@ -29,6 +29,8 @@ require("./utils/db");
 
 // Routes
 const regisRoutes = require("./routes/router-register");
+const loginRoutes = require("./routes/router-login");
+const homeRoutes = require("./routes/router-home");
 
 // Setup EJS
 app.set("view engine", "ejs");
@@ -36,6 +38,8 @@ app.set("views", "./views");
 
 // Backend Routes
 app.use("/", regisRoutes);
+app.use("/login", loginRoutes);
+app.use("/home", homeRoutes);
 
 // Frontend Routes
 // app.get("/", (req, res) => {

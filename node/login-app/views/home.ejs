@@ -4,6 +4,15 @@
 <%- include('./layouts/nav') %>
 <!-- Content -->
 <div class="row mt-5">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <% if (msg.length !== 0) { %>
+    <div class="alert alert-success" role="alert"><%= msg %></div>
+    <% } %>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+<div class="row">
   <div class="col-lg-6 dashboard-text-big">
     <h1>Lorem Ipsum</h1>
   </div>

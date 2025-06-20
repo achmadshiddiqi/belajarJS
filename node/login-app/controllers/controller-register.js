@@ -17,9 +17,8 @@ exports.viewRegister = (req, res) => {
 exports.saveRegister = async (req, res, next) => {
   const { username, password } = req.body;
   if (password.length < 8) {
-    res.status(400);
     req.flash("msg", "Password less than 8 characters");
-    return res.redirect("/");
+    return res.status(400).redirect("/");
   }
   try {
     const hashedPassword = await hashPassword(password);
@@ -27,11 +26,10 @@ exports.saveRegister = async (req, res, next) => {
       username,
       password: hashedPassword,
     }).then((user) => {
-      const { password, ...userData } = user._doc;
-      res.status(201).send(userData);
+      // const { password, ...userData } = user._doc;
+      res.status(201).send("Register Successful");
     });
   } catch (err) {
-    res.status(401);
-    return console.log(err);
+    res.status(400).send(err);
   }
 };

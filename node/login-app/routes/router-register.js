@@ -1,9 +1,9 @@
 const express = require("express");
+const router = express.Router();
 const {
   viewRegister,
   saveRegister,
 } = require("../controllers/controller-register");
-const router = express.Router();
 
 router.get("/", viewRegister);
 
