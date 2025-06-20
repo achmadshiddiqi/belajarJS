@@ -55,8 +55,17 @@ exports.login = async (req, res) => {
       } else {
         const accessToken = generateAccessToken(user, user.username);
         const refreshToken = generateRefreshToken(user, user.username);
-        await Token.insertOne({ r_token: refreshToken });
-        res.cookie("token", accessToken, {
+        await Token.insertOne({
+          r_token: refreshToken,
+          userId: user._id,
+          expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        });
+        res.cookie("accessToken", accessToken, {
+          httpOnly: true,
+          secure: true,
+          sameSite: true,
+        });
+        res.cookie("refreshToken", refreshToken, {
           httpOnly: true,
           secure: true,
           sameSite: true,
@@ -68,5 +77,27 @@ exports.login = async (req, res) => {
   } catch (err) {
     res.status(401);
     return console.log(err);
+  }
+};
+
+exports.logout = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.status(401).send("Unauthorized");
+
+  try {
+    await Token.deleteOne({ r_token: refreshToken });
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: true,
+    });
+    res.clearCookie("accessToken", {
+      httpOnly: true,
+      secure: true,
+      sameSite: true,
+    });
+    return res.status(201).redirect("/login");
+  } catch (err) {
+    if (err) return res.status(401).send(err);
   }
 };

@@ -1,13 +1,13 @@
 // Login API request
 // document.addEventListener("DOMContentLoaded", function () {
-//   const loginForm = document.querySelector(".login-submit");
-//   loginForm.addEventListener("click", async (e) => {
+//   const loginForm = document.querySelector(".login-form");
+//   loginForm.addEventListener("submit", async (e) => {
 //     e.preventDefault();
 
 //     const username = document.getElementById("username").value;
 //     const password = document.getElementById("password").value;
 
-//     const res = await fetch("http://localhost:3000/api/auth/login", {
+//     const res = await fetch("http://localhost:3000/login/auth", {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",

@@ -1,31 +1,31 @@
 const jwt = require("jsonwebtoken");
+const Token = require("../models/tokens");
 require("dotenv").config();
 
 // User authentication
 exports.loginAuth = (req, res, next) => {
   try {
-    const token = req.cookies.token;
-    if (token == null) {
-      res.send("Token invalid");
+    const accessToken = req.cookies.accessToken;
+    if (!accessToken) {
+      return res.status(401).send("Token not provided, please login");
     }
-    if (token) {
-      jwt.verify(
-        token,
-        process.env.ACCESS_TOKEN_SECRET,
-        (err, decodedToken) => {
-          if (err) {
-            res.status(403).send("This session has expired. Please login.");
-          }
 
-          if (!decodedToken.role || !decodedToken.username) {
-            return res.status(401).send("Not Authorized");
-          } else {
-            req.user = decodedToken;
-            next();
-          }
+    jwt.verify(
+      accessToken,
+      process.env.ACCESS_TOKEN_SECRET,
+      (err, decodedToken) => {
+        if (err) {
+          return res.status(401).send("Your session has expired, please login");
         }
-      );
-    }
+
+        if (!decodedToken.role || !decodedToken.username) {
+          return res.status(401).send("Not Authorized");
+        } else {
+          req.user = decodedToken;
+          next();
+        }
+      }
+    );
   } catch (err) {
     return res.status(403).send(err);
   }
@@ -33,15 +33,14 @@ exports.loginAuth = (req, res, next) => {
 
 // User authorization
 exports.adminAuth = (req, res, next) => {
-  const token = req.cookies.token;
-  if (token) {
-    if (req.user.role !== "admin") {
-      return res.status(401).send("You are not authorized");
-    } else {
-      next();
-    }
+  const accessToken = req.cookies.accessToken;
+  if (!accessToken) {
+    return res.status(401).send("Token not provided, please login");
+  }
+
+  if (req.user.role !== "admin") {
+    return res.status(401).send("You are not authorized");
   } else {
-    res.status(401);
-    return res.send("Token not available");
+    next();
   }
 };
