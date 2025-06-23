@@ -4,6 +4,7 @@ const { scrypt, timingSafeEqual } = require("node:crypto");
 const { promisify } = require("node:util");
 const scryptAsync = promisify(scrypt);
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 // Compare password on login
 const comparePassword = async (storedPassword, password) => {

@@ -1,10 +1,9 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const { adminAuth, loginAuth } = require("./auth/middleware");
-const { getUsers } = require("./auth/auth");
-const User = require("./models/users");
 const flash = require("connect-flash");
 const session = require("express-session");
+const Token = require("./models/tokens");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = 3000;
@@ -43,31 +42,34 @@ app.use("/login", loginRoutes);
 app.use("/home", homeRoutes);
 app.use("/users", usersRoutes);
 
-// Frontend Routes
-// app.get("/", (req, res) => {
-//   res.render("login", { title: "Login Page" });
-// });
+// Refresh Token Route
+app.post("/refresh/token", async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.status(401).send("Not authorized");
 
-// app.get("/register", (req, res) => {
-//   res.render("register", { title: "Register Page" });
-// });
+  const check = await Token.findOne({ r_token: refreshToken });
+  if (!check) return res.status(401).send("Not authorized");
 
-// app.get("/home", (req, res) => {
-//   res.render("home", { title: "Home Page" });
-// });
-
-// app.get("/users", loginAuth, async (req, res) => {
-//   const loggedUser = req.user;
-//   const users = await getUsers();
-//   res.render("users", { title: "User List Page", users, loggedUser });
-// });
-
-// app.get("/users/update/:username", loginAuth, adminAuth, async (req, res) => {
-//   const user = await User.findOne({
-//     username: req.params.username,
-//   });
-//   res.render("update", { title: "Update User Page", user });
-// });
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: true,
+  });
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    const accessToken = jwt.sign(
+      { id: user._id, user: user.username, role: user.role },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "15m" }
+    );
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: true,
+    });
+    return res.status(201).send("Successfully refresh token");
+  });
+});
 
 app.listen(port, () => {
   console.log(`Login App listening on port http://localhost:${port}`);
