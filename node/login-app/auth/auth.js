@@ -3,7 +3,6 @@ const Token = require("../models/tokens");
 const { scrypt, randomBytes, timingSafeEqual } = require("node:crypto");
 const { promisify } = require("node:util");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 const scryptAsync = promisify(scrypt);
 
 // Hash password

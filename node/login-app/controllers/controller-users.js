@@ -1,7 +1,7 @@
 const User = require("../models/users");
 
 exports.userView = async (req, res) => {
-  const users = await User.find({ role: "Staff" });
+  const users = await User.find();
   const loggedUser = req.user;
   res.render("users", {
     title: "Users Page",
@@ -57,6 +57,20 @@ exports.userUpdate = async (req, res) => {
       return res.status(201).redirect("/users");
     }
   } catch (err) {
-    if (err) return console.log(err);
+    if (err) return res.status(400).send(err);
+  }
+};
+
+exports.userDelete = async (req, res) => {
+  const username = req.params.username;
+  const check = await User.findOne({ username });
+  if (!check) return res.sendStatus(400);
+
+  try {
+    await User.deleteOne({ username });
+    req.flash("msg", `Successfully delete ${username}`);
+    return res.status(201).redirect("/users");
+  } catch (err) {
+    if (err) return res.status(400).send(err);
   }
 };
