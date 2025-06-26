@@ -1,3 +1,9 @@
 exports.viewHome = (req, res) => {
-  res.render("home", { title: "Home Page", msg: req.flash("msg") });
+  const loggedUser = req.user;
+  res.render("home", {
+    title: "Home Page",
+    activePage: "home",
+    loggedUser,
+    msg: req.flash("msg"),
+  });
 };

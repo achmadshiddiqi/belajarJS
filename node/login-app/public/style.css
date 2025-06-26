@@ -1,6 +1,31 @@
 body {
   background-color: black;
 }
+
+.navbar {
+  border-bottom: 1px solid lightgray;
+}
+
+.navbar .right-side button {
+  border: 0px;
+}
+
+.navbar .right-side .offcanvas-header {
+  border-bottom: 1px solid lightgray;
+}
+
+.navbar .nav-item {
+  border-radius: 10px;
+}
+
+.navbar .nav-item:hover {
+  background-color: rgba(90, 90, 90, .5);
+}
+
+.navbar .nav-item .nav-link {
+  padding-left: 10px;
+}
+
 .dashboard-text-big h1 {
   font-family: cursive;
   font-size: 100px;
@@ -20,14 +45,6 @@ body {
   background-color: lightgray;
   border: 1px solid lightgray;
   border-radius: 20px;
-}
-
-.navbar .center ul {
-  margin-left: 31%;
-}
-
-.navbar .center ul li {
-  margin-left: 10px;
 }
 
 .kolom-tombol {

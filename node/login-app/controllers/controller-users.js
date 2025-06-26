@@ -5,6 +5,7 @@ exports.userView = async (req, res) => {
   const loggedUser = req.user;
   res.render("users", {
     title: "Users Page",
+    activePage: "users",
     users,
     loggedUser,
     msg: req.flash("msg"),

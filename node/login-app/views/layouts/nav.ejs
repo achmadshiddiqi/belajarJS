@@ -1,32 +1,114 @@
-<nav class="navbar navbar-expand-lg" data-bs-theme="dark">
+<nav class="navbar navbar-expand-*" data-bs-theme="dark">
+  <!-- HeadApp -->
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Lorem</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navItems"
-      aria-controls="navItems"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse center" id="navItems">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/home">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/users">Users</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" aria-disabled="true">Logout</a>
-        </li>
-      </ul>
+    <!-- Head Left -->
+    <div class="left-side">
+      <!-- Left Content -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navItems"
+        aria-controls="navItems"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Navbrand -->
+      <a class="navbar-brand p-2" href="/home">Lorem Ipsum</a>
+
+      <!-- Nav Body -->
+      <div
+        class="collapse navbar-collapse justify-content-center"
+        id="navItems"
+      >
+        <ul class="navbar-nav nav-underline">
+          <li class="nav-item">
+            <a
+              class="nav-link <%= activePage == 'home' ? 'active' : '' %>"
+              aria-current="page"
+              href="/home"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= activePage == 'about' ? 'active' : '' %>"
+              href="#"
+              >About</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link <%= activePage == 'users' ? 'active' : '' %>"
+              href="/users"
+              >Users</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-disabled="true">Logout</a>
+          </li>
+        </ul>
+      </div>
     </div>
+    <!-- End of Head Left -->
+
+    <!-- Head Right -->
+    <div class="right-side">
+      <!-- Right Content -->
+      <button
+        class="navbar-toggler"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar-right"
+        aria-controls="offcanvasNavbar"
+        aria-label="Toggle navigation"
+      >
+        <!-- <span class="navbar-toggler-icon"></span> -->
+        <img
+          class="rounded-circle"
+          src="/img/employee.png"
+          alt="img"
+          width="30"
+        />
+      </button>
+
+      <!-- Offcanvas Content -->
+      <div
+        class="offcanvas offcanvas-end"
+        tabindex="-1"
+        id="offcanvasNavbar-right"
+        aria-labelledby="offcanvasNavbarLabel"
+      >
+        <div class="offcanvas-header">
+          <img src="/img/employee.png" alt="" width="50" />
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+            <%= loggedUser.username %>
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <i class="fa-regular fa-user"
+                ><a class="nav-link" href="#">Your Profile</a></i
+              >
+            </li>
+            <li class="nav-item">
+              <form method="POST" action="/login/logout">
+                <button type="submit" class="nav-link">Logout</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- End of Head Right -->
   </div>
+  <!-- End of HeadApp -->
 </nav>
