@@ -10,8 +10,22 @@ body {
   border: 0px;
 }
 
+/* Navbar Left Side */
+.navbar .left-side .navbar-toggler {
+  border: 1px solid lightgray;
+}
+
+/* Navbar Right Side */
 .navbar .right-side .offcanvas-header {
   border-bottom: 1px solid lightgray;
+}
+
+.navbar .right-side .offcanvas-header .offcanvas-img {
+  margin-right: 5px;
+}
+
+.navbar .right-side .offcanvas-header .offcanvas-title {
+  font-size: 16px;
 }
 
 .navbar .nav-item {
@@ -24,6 +38,10 @@ body {
 
 .navbar .nav-item .nav-link {
   padding-left: 10px;
+}
+
+.navbar .nav-item .nav-link .fa {
+  margin-right: 10px;
 }
 
 .dashboard-text-big h1 {

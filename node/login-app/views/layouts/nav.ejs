@@ -1,62 +1,70 @@
 <nav class="navbar navbar-expand-*" data-bs-theme="dark">
   <!-- HeadApp -->
   <div class="container-fluid">
-    <!-- Head Left -->
+    <!-- Left Side -->
     <div class="left-side">
-      <!-- Left Content -->
+      <!-- Head Left -->
       <button
         class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navItems"
-        aria-controls="navItems"
-        aria-expanded="false"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar-left"
+        aria-controls="offcanvasNavbar"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <i class="fa fa-bars" aria-hidden="true"></i>
       </button>
       <!-- Navbrand -->
       <a class="navbar-brand p-2" href="/home">Lorem Ipsum</a>
 
-      <!-- Nav Body -->
+      <!-- Left Offcanvas Content -->
       <div
-        class="collapse navbar-collapse justify-content-center"
-        id="navItems"
+        class="offcanvas offcanvas-start"
+        tabindex="-1"
+        id="offcanvasNavbar-left"
+        aria-labelledby="offcanvasNavbarLabel"
       >
-        <ul class="navbar-nav nav-underline">
-          <li class="nav-item">
-            <a
-              class="nav-link <%= activePage == 'home' ? 'active' : '' %>"
-              aria-current="page"
-              href="/home"
-              >Home</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link <%= activePage == 'about' ? 'active' : '' %>"
-              href="#"
-              >About</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link <%= activePage == 'users' ? 'active' : '' %>"
-              href="/users"
-              >Users</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-disabled="true">Logout</a>
-          </li>
-        </ul>
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Lorem Ipsum</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+            <li class="nav-item">
+              <a
+                class="nav-link <%= activePage == 'home' ? 'active' : '' %>"
+                aria-current="page"
+                href="/home"
+                ><i class="fa fa-home" aria-hidden="true"></i>Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link <%= activePage == 'about' ? 'active' : '' %>"
+                href="#"
+                ><i class="fa fa-info-circle" aria-hidden="true"></i>About</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link <%= activePage == 'users' ? 'active' : '' %>"
+                href="/users"
+                ><i class="fa fa-users" aria-hidden="true"></i>Users</a
+              >
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-    <!-- End of Head Left -->
+    <!-- End of Left Side -->
 
-    <!-- Head Right -->
+    <!-- Right Side -->
     <div class="right-side">
-      <!-- Right Content -->
+      <!-- Right Head -->
       <button
         class="navbar-toggler"
         data-bs-toggle="offcanvas"
@@ -64,7 +72,6 @@
         aria-controls="offcanvasNavbar"
         aria-label="Toggle navigation"
       >
-        <!-- <span class="navbar-toggler-icon"></span> -->
         <img
           class="rounded-circle"
           src="/img/employee.png"
@@ -73,7 +80,7 @@
         />
       </button>
 
-      <!-- Offcanvas Content -->
+      <!-- Right Offcanvas Content -->
       <div
         class="offcanvas offcanvas-end"
         tabindex="-1"
@@ -81,7 +88,12 @@
         aria-labelledby="offcanvasNavbarLabel"
       >
         <div class="offcanvas-header">
-          <img src="/img/employee.png" alt="" width="50" />
+          <img
+            class="offcanvas-img"
+            src="/img/employee.png"
+            alt=""
+            width="30"
+          />
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
             <%= loggedUser.username %>
           </h5>
@@ -95,13 +107,15 @@
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
-              <i class="fa-regular fa-user"
-                ><a class="nav-link" href="#">Your Profile</a></i
+              <a class="nav-link" href="#"
+                ><i class="fa fa-user-o" aria-hidden="true"></i>Your Profile</a
               >
             </li>
             <li class="nav-item">
               <form method="POST" action="/login/logout">
-                <button type="submit" class="nav-link">Logout</button>
+                <button type="submit" class="nav-link">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>Logout
+                </button>
               </form>
             </li>
           </ul>
