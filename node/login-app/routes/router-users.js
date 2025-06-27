@@ -5,6 +5,8 @@ const {
   userViewUpdate,
   userUpdate,
   userDelete,
+  userViewSort,
+  userViewSearch,
 } = require("../controllers/controller-users");
 const router = express.Router();
 

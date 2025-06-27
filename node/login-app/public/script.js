@@ -21,3 +21,17 @@
 //     localStorage.setItem("refreshToken", data.refreshToken);
 //   });
 // });
+
+// Users Sort API
+// const reloadPage = ()
+
+// document.addEventListener("DOMContentLoaded", () => {
+//   const sortValue = document.getElementById("sort");
+//   sortValue.addEventListener("change", async () => {
+//     const result = await fetch(
+//       `http://localhost:3000/users/action?sort=${sortValue.value}`
+//     );
+//     const data = await result.json();
+//     return console.log(data);
+//   });
+// });

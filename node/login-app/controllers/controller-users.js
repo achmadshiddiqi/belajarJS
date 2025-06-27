@@ -1,7 +1,11 @@
 const User = require("../models/users");
 
 exports.userView = async (req, res) => {
-  const users = await User.find();
+  const sort = req.query.sort;
+  let users = await User.find();
+  if (sort !== "default") {
+    users = await User.find().sort({ [sort]: 1 });
+  }
   const loggedUser = req.user;
   res.render("users", {
     title: "Users Page",
