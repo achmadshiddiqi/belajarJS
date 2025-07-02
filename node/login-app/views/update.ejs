@@ -9,7 +9,7 @@
     <div class="col-md-4 form-body">
       <h1 class="text-center">Update</h1>
       <% if (msg.length !== 0) { %>
-      <div class="alert alert-success" role="alert"><%= msg %></div>
+      <div class="alert alert-danger" role="alert"><%= msg %></div>
       <% } %>
       <form method="POST" action="/users/update/save">
         <div class="mb-3">
@@ -22,7 +22,7 @@
             name="username"
             class="form-control"
             value="<%= user.username %>"
-            disabled
+            readonly
           />
         </div>
         <div class="mb-3">

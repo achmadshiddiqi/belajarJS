@@ -18,6 +18,7 @@ exports.userView = async (req, res) => {
 
 exports.userViewUpdate = async (req, res) => {
   const user = await User.findOne({ username: req.params.username });
+  const loggedUser = req.user;
   if (!user) {
     req.flash("msg", "User not found");
     return res.redirect("/users");
@@ -25,6 +26,8 @@ exports.userViewUpdate = async (req, res) => {
 
   res.render("update", {
     title: "Update User Page",
+    activePage: "users",
+    loggedUser,
     msg: req.flash("msg"),
     user,
   });
@@ -38,11 +41,14 @@ exports.userUpdate = async (req, res) => {
   try {
     const { role, _id } = req.body;
     const userTarget = await User.findOne({ _id });
+    const loggedUser = req.user;
 
     if (userTarget.role === "admin" && role === "admin") {
       req.flash("msg", `${userTarget.username} is already an admin`);
       return res.status(400).render("update", {
         title: "Update User Page",
+        activePage: "users",
+        loggedUser,
         msg: req.flash("msg"),
         user: req.body,
       });
@@ -50,6 +56,8 @@ exports.userUpdate = async (req, res) => {
       req.flash("msg", `${userTarget.username} is already a staff`);
       return res.status(400).render("update", {
         title: "Update User Page",
+        activePage: "users",
+        loggedUser,
         msg: req.flash("msg"),
         user: req.body,
       });

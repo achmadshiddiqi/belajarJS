@@ -18,16 +18,41 @@
     <script type="text/babel">
       const domNode = document.getElementById("app");
       const root = ReactDOM.createRoot(domNode);
-      root.render(
-        <div class="head">
-          <h1>Belajar React Cuy 🗿</h1>
+
+      // Header
+      function Header() {
+        const [likes, setLikes] = React.useState(0);
+
+        function handleClick() {
+          setLikes(likes + 1);
+        }
+
+        return (
+          <div className="head">
+            <Judul emoji="🗿" />
+            <Judul />
+            <List />
+            <button onClick={handleClick}>Semangat ({likes})</button>
+          </div>
+        );
+      }
+
+      function Judul({ emoji }) {
+        return <h1>Belajar React Cuy {emoji ? emoji : "UWOOHH"}</h1>;
+      }
+
+      function List() {
+        const quotes = ["Observe", "Obese", "Overcome"];
+        return (
           <ul>
-            <ol>Observe</ol>
-            <ol>Obese</ol>
-            <ol>Overweight</ol>
+            {quotes.map((quote) => (
+              <ol key={quote}>{quote}</ol>
+            ))}
           </ul>
-        </div>
-      );
+        );
+      }
+
+      root.render(<Header />);
     </script>
   </body>
 </html>

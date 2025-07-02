@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- React Script -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Babel Script -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Style CSS -->
+    <style>
+      .container {
+        width: 150px;
+      }
+
+      .counter {
+        text-align: center;
+      }
+
+      span {
+        margin: 0 10px 0 10px;
+      }
+
+      .reset {
+        margin-top: 10px;
+        text-align: center;
+      }
+    </style>
+
+    <title>Latihan React 1 (Components, Props, State)</title>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script type="text/babel">
+      // React DOM Node
+      const domNode = document.getElementById("app");
+      const root = ReactDOM.createRoot(domNode);
+
+      // Content
+      function Body() {
+        let [counts, setCounter] = React.useState(0);
+
+        if (counts < 0 || counts > 10) {
+          setCounter((counts = "done!"));
+        }
+
+        function handleMinus() {
+          setCounter(counts - 1);
+        }
+
+        function handlePlus() {
+          setCounter(counts + 1);
+        }
+
+        function handleReset() {
+          setCounter((counts = 0));
+        }
+
+        return (
+          <div className="container">
+            <div className="counter">
+              <Button
+                label="-"
+                events={handleMinus}
+                dis={counts == "done!" ? "yes" : "no"}
+              />
+              <View type={counts} />
+              <Button
+                label="+"
+                events={handlePlus}
+                dis={counts == "done!" ? "yes" : "no"}
+              />
+            </div>
+            <div className="reset">
+              <Button
+                label="Reset"
+                events={handleReset}
+                dis={counts == "done!" ? "no" : "yes"}
+              />
+            </div>
+          </div>
+        );
+      }
+
+      function Button({ label, events, dis }) {
+        return (
+          <button
+            onClick={events}
+            key={label}
+            disabled={dis == "yes" ? true : false}
+          >
+            {label}
+          </button>
+        );
+      }
+
+      function View({ type }) {
+        return <span>{type}</span>;
+      }
+
+      // Render
+      root.render(<Body />);
+    </script>
+  </body>
+</html>
