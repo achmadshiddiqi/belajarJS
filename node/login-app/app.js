@@ -31,6 +31,7 @@ const regisRoutes = require("./routes/router-register");
 const loginRoutes = require("./routes/router-login");
 const homeRoutes = require("./routes/router-home");
 const usersRoutes = require("./routes/router-users");
+const jobRoutes = require("./routes/router-applyJob");
 
 // Setup EJS
 app.set("view engine", "ejs");
@@ -41,6 +42,7 @@ app.use("/", regisRoutes);
 app.use("/login", loginRoutes);
 app.use("/home", homeRoutes);
 app.use("/users", usersRoutes);
+app.use("/job", jobRoutes);
 
 // Refresh Token Route
 app.post("/refresh/token", async (req, res) => {

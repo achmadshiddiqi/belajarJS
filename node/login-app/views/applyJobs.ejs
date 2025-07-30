@@ -1,0 +1,60 @@
+<!-- Header -->
+<%- include('./layouts/header') %>
+<!-- Navbar -->
+<%- include('./layouts/nav') %>
+<!-- Content -->
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <% if (msg.length !== 0) { %>
+      <div class="alert alert-success" role="alert"><%= msg %></div>
+      <% } %>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 form-body">
+      <h2 class="text-center mt-3 mb-3">Input Applied Job</h2>
+      <form method="post" action="/job/save">
+        <div class="mb-3">
+          <!-- Hidden UserId -->
+          <input
+            type="hidden"
+            name="userId"
+            id="userId"
+            value="<%= loggedUser.id %>"
+          />
+
+          <label for="position" class="form-label">Position</label>
+          <input
+            type="text"
+            id="position"
+            name="position"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="instance" class="form-label">Instance</label>
+          <input
+            type="text"
+            id="instance"
+            name="instance"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label>
+          <input type="text" id="address" name="address" class="form-control" />
+        </div>
+        <div class="mb-3 kolom-tombol">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+<!-- Footer -->
+<%- include('./layouts/footer') %>
