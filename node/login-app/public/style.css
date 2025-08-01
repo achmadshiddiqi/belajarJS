@@ -33,7 +33,7 @@ body {
 }
 
 .navbar .nav-item:hover {
-  background-color: rgba(90, 90, 90, .5);
+  background-color: rgba(90, 90, 90, 0.5);
 }
 
 .navbar .nav-item .nav-link {
@@ -72,4 +72,9 @@ body {
 
 .users-title {
   color: white;
+}
+
+.table {
+  border-radius: 10px;
+  overflow: hidden;
 }

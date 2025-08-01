@@ -20,6 +20,15 @@ const jobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  status: {
+    type: String,
+    required: true,
+    default: "Waiting",
+  },
+  portal: {
+    type: String,
+    required: true,
+  },
 });
 
 const Jobs = mongoose.model("job", jobSchema);
