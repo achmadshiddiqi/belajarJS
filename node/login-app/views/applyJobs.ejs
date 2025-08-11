@@ -100,7 +100,7 @@
             <th scope="col">Address</th>
             <th scope="col">Portal</th>
             <th scope="col">Status</th>
-            <th scope="col" colspan="2">Application Day</th>
+            <th scope="col" colspan="3">Application Day</th>
           </tr>
         </thead>
         <tbody class="table-group-divider">
@@ -126,8 +126,15 @@
             <td>
               <a
                 href="/job/edit/<%= job.position %>/<%= job.instance %>"
-                class="btn btn-warning"
+                class="btn btn-success"
                 >Edit</a
+              >
+            </td>
+            <td>
+              <a
+                href="/job/delete/<%= job.position %>/<%= job.instance %>"
+                class="btn btn-warning"
+                >Delete</a
               >
             </td>
           </tr>

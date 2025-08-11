@@ -1,8 +1,12 @@
+const req = require("express/lib/request");
 const Jobs = require("../models/jobs");
 
 exports.jobView = async (req, res) => {
   const loggedUser = req.user;
-  const jobs = await Jobs.find({ userId: loggedUser.id });
+  const jobs = await Jobs.find({
+    userId: loggedUser.id,
+    status: { $ne: "Deleted" },
+  });
   res.render("applyJobs", {
     title: "Apply Jobs Page",
     activePage: "applyJobs",
@@ -36,11 +40,11 @@ exports.jobEditView = async (req, res) => {
   const { position, instance } = req.params;
   const loggedUser = req.user;
   const job = await Jobs.findOne({ position, instance });
-  if (loggedUser.id !== job.userId) return res.status(401).send("Unauthorized");
   if (!job) {
     req.flash("msg", "Job not found");
     return res.status(400).redirect("/job");
   }
+  if (loggedUser.id !== job.userId) return res.status(401).send("Unauthorized");
 
   res.render("jobEdit", {
     title: "Job Application Edit Page",
@@ -113,6 +117,30 @@ exports.jobEditSave = async (req, res) => {
     );
 
     req.flash("msg", "Job successfully edited");
+    return res.status(201).redirect("/job");
+  } catch (err) {
+    if (err) return res.status(400).send(err);
+  }
+};
+
+exports.jobDelete = async (req, res) => {
+  const { position, instance } = req.params;
+  if (!position && !instance) return res.status(400);
+
+  try {
+    const job = await Jobs.findOne({ position, instance });
+    if (!job) {
+      req.flash("msg", "Job not found");
+      return res.status(400).redirect("/job");
+    }
+
+    await Jobs.updateOne(
+      { userId: job.userId, position, instance },
+      {
+        $set: { status: "Deleted" },
+      }
+    );
+    req.flash("msg", "Successfully delete job");
     return res.status(201).redirect("/job");
   } catch (err) {
     if (err) return res.status(400).send(err);

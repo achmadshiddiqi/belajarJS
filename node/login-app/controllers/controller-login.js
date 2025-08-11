@@ -76,8 +76,10 @@ exports.login = async (req, res) => {
       }
     }
   } catch (err) {
-    res.status(401);
-    return console.log(err);
+    req.flash("msg", "Login failed");
+    return res
+      .status(401)
+      .render("login", { title: "Login Page", msg: req.flash("msg") });
   }
 };
 
